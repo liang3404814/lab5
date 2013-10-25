@@ -15,11 +15,11 @@ function render(employees, template, container) {
         for (var prop in this) {
             if (prop === 'pic') {
                 instance.find('.' + prop).attr({
-                    src: this.prop,
+                    src: this[prop],
                     alt: 'Photo of ' + this.first
                 })
             } else {
-                instance.find('.' + prop).html(this.prop);
+                instance.find('.' + prop).html(this[prop]);
             }
         }
 
