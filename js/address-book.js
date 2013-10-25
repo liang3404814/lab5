@@ -3,12 +3,28 @@
 */
 
 $(function() {
+    $('.sort-ui .btn').click(function() {
+        var $this = $(this);
+        var option = $this.attr('data-sortby');
+        sortObjArray(Employees.entries, option);
+        render(Employees.entries, $('.template'), $('.address-book'));
+        $('.btn').removeClass('active');
+        $this.addClass('active');
+    });
+
+    $('.sort-ui .btn').popover({
+        content: function() {return 'Click to Resort ' + $(this).html();},
+        container: 'body',
+        trigger: 'hover',
+        placement: 'bottom'
+    });
 
     render(Employees.entries, $('.template'), $('.address-book'));
 });
 
 function render(employees, template, container) {
     var instance;
+    container.hide();
     container.empty();
     $.each(employees, function() {
         instance = template.clone();
@@ -16,7 +32,7 @@ function render(employees, template, container) {
             if (prop === 'pic') {
                 instance.find('.' + prop).attr({
                     src: this[prop],
-                    alt: 'Photo of ' + this.first
+                    alt: 'Photo of ' + this['first']
                 })
             } else {
                 instance.find('.' + prop).html(this[prop]);
@@ -26,6 +42,7 @@ function render(employees, template, container) {
         instance.removeClass('template');
         container.append(instance);
     })
+    container.fadeIn();
 }
 
 /* sortObjArray()
